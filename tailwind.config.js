@@ -7,35 +7,67 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Dark museum theme
-        'museum-dark': '#0a0a0f',
-        'museum-panel': '#12121a',
-        'museum-border': '#2a2a3a',
-        // Flame/candle colors
-        'flame-orange': '#ff8c00',
-        'flame-yellow': '#ffd700',
-        'flame-red': '#ff4500',
-        // Accent
-        'gold': '#d4af37',
-        'gold-light': '#f0d978',
+        // Charcoal paper theme
+        'paper-dark': '#1a1814',
+        'paper-mid': '#252220',
+        'paper-light': '#2d2a26',
+        'pencil': '#c4b8a4',
+        'pencil-light': '#d9cdb8',
+        'pencil-faint': '#6b6358',
+        'chalk-white': '#e8e0d0',
+        'chalk-gold': '#c9a227',
+        // Legacy support
+        'museum-dark': '#1a1814',
+        'museum-panel': '#252220',
+        'museum-border': '#3d3830',
+        'gold': '#c9a227',
+        'gold-light': '#d9b84a',
+        'gold-dim': '#8b7a4a',
+        'flame-orange': '#d47230',
+        'flame-yellow': '#d9b84a',
+      },
+      fontFamily: {
+        'sketch': ['Amatic SC', 'Caveat', 'cursive'],
+        'hand': ['Caveat', 'cursive'],
+      },
+      borderRadius: {
+        'sketch': '255px 15px 225px 15px / 15px 225px 15px 255px',
+        'sketch-alt': '15px 225px 15px 255px / 255px 15px 225px 15px',
+        'sketch-2': '225px 15px 255px 15px / 15px 255px 15px 225px',
       },
       boxShadow: {
-        'flame': '0 0 10px #ff8c00, 0 0 20px #ff8c00, 0 0 30px #ff4500',
-        'flame-subtle': '0 0 5px #ff8c00, 0 0 10px #ff8c0066',
-        'glow-gold': '0 0 10px #d4af37, 0 0 20px #d4af3766',
+        'chalk': '0 0 10px rgba(201, 162, 39, 0.3)',
+        'chalk-strong': '0 0 15px rgba(201, 162, 39, 0.5)',
+        'watercolor': '0 0 20px rgba(212, 114, 48, 0.3)',
       },
       animation: {
-        'flicker': 'flicker 0.5s ease-in-out infinite alternate',
-        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+        'scribble': 'scribble 3s ease-in-out infinite',
+        'scribble-fast': 'scribble 0.5s ease-in-out infinite',
+        'sketch-wobble': 'sketch-wobble 2s ease-in-out infinite',
+        'pencil-flicker': 'pencil-flicker 1.5s ease-in-out infinite',
+        'chalk-pulse': 'chalk-pulse 3s ease-in-out infinite',
       },
       keyframes: {
-        flicker: {
-          '0%': { opacity: '0.8', transform: 'scale(1)' },
-          '100%': { opacity: '1', transform: 'scale(1.05)' },
+        scribble: {
+          '0%': { borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' },
+          '25%': { borderRadius: '15px 225px 15px 255px / 255px 15px 225px 15px' },
+          '50%': { borderRadius: '225px 15px 255px 15px / 15px 255px 15px 225px' },
+          '75%': { borderRadius: '15px 255px 15px 225px / 225px 15px 255px 15px' },
+          '100%': { borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' },
         },
-        'pulse-glow': {
-          '0%, 100%': { boxShadow: '0 0 5px #ff8c00, 0 0 10px #ff8c0066' },
-          '50%': { boxShadow: '0 0 15px #ff8c00, 0 0 25px #ff8c0088' },
+        'sketch-wobble': {
+          '0%, 100%': { transform: 'rotate(-0.5deg) scale(1)' },
+          '25%': { transform: 'rotate(0.3deg) scale(1.01)' },
+          '50%': { transform: 'rotate(-0.3deg) scale(0.99)' },
+          '75%': { transform: 'rotate(0.5deg) scale(1)' },
+        },
+        'pencil-flicker': {
+          '0%, 100%': { opacity: '0.85', filter: 'brightness(1)' },
+          '50%': { opacity: '1', filter: 'brightness(1.1)' },
+        },
+        'chalk-pulse': {
+          '0%, 100%': { opacity: '0.4', boxShadow: '0 0 5px rgba(201, 162, 39, 0.3)' },
+          '50%': { opacity: '0.6', boxShadow: '0 0 15px rgba(201, 162, 39, 0.5)' },
         },
       },
     },

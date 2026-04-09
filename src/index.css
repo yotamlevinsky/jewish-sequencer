@@ -5,17 +5,48 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ============================================
+   SKETCHBOOK AESTHETIC - Hand-drawn style
+   ============================================ */
+
 :root {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* Handwritten font for headers */
+  --font-sketch: 'Amatic SC', 'Caveat', cursive;
+  --font-body: 'Caveat', 'Frank Ruhl Libre', serif;
+
+  /* Charcoal paper colors */
+  --paper-dark: #1a1814;
+  --paper-mid: #252220;
+  --paper-light: #2d2a26;
+  --pencil: #c4b8a4;
+  --pencil-light: #d9cdb8;
+  --pencil-faint: #6b6358;
+  --chalk-white: #e8e0d0;
+  --chalk-gold: #c9a227;
+  --watercolor-orange: #d4723088;
+  --watercolor-gold: #c9a22766;
+
+  font-family: var(--font-body);
   line-height: 1.5;
   font-weight: 400;
   color-scheme: dark;
-  color: #ffffff;
-  background-color: #0a0a0f;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  color: var(--pencil);
+  direction: rtl;
+}
+
+/* Paper texture background with noise */
+html {
+  background: var(--paper-dark);
+}
+
+body {
+  background:
+    /* Noise grain overlay */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"),
+    /* Subtle paper gradient */
+    linear-gradient(180deg, #1a1814 0%, #1f1c18 50%, #252220 100%);
+  background-blend-mode: overlay, normal;
+  background-attachment: fixed;
 }
 
 * {
@@ -30,49 +61,202 @@ html, body, #root {
   overflow: hidden;
 }
 
-/* Flame icon styling */
+/* ============================================
+   HAND-DRAWN BORDERS - Wobbly sketch lines
+   ============================================ */
+
+.sketch-border {
+  border: 2px solid var(--pencil-faint);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  position: relative;
+}
+
+.sketch-border-light {
+  border: 1px solid var(--pencil-faint);
+  border-radius: 15px 255px 15px 225px / 225px 15px 255px 15px;
+}
+
+.sketch-border-gold {
+  border: 2px solid var(--chalk-gold);
+  border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px;
+}
+
+/* ============================================
+   SKETCHY TEXT STYLES
+   ============================================ */
+
+.sketch-title {
+  font-family: var(--font-sketch);
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--chalk-gold);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+}
+
+.sketch-label {
+  font-family: var(--font-sketch);
+  font-weight: 400;
+  color: var(--pencil);
+  letter-spacing: 1px;
+}
+
+/* ============================================
+   SKETCHED FLAME ICONS
+   ============================================ */
+
 .flame-icon {
-  filter: drop-shadow(0 0 3px #ff8c00) drop-shadow(0 0 6px #ff4500);
+  filter:
+    contrast(0.9)
+    brightness(1.1)
+    drop-shadow(0 0 3px var(--watercolor-orange))
+    drop-shadow(0 0 8px var(--watercolor-gold));
+  opacity: 0.9;
 }
 
-/* Active step glow animation */
-.step-active {
-  animation: pulse-glow 1.5s ease-in-out infinite;
+/* Watercolor smudge glow effect */
+.watercolor-glow {
+  position: relative;
 }
 
-/* Custom scrollbar for dark theme */
+.watercolor-glow::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  background: radial-gradient(ellipse at center, var(--watercolor-orange) 0%, transparent 70%);
+  filter: blur(8px);
+  z-index: -1;
+  opacity: 0.6;
+}
+
+/* ============================================
+   SCRIBBLE ANIMATIONS
+   ============================================ */
+
+@keyframes scribble {
+  0% { border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; }
+  25% { border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px; }
+  50% { border-radius: 225px 15px 255px 15px / 15px 255px 15px 225px; }
+  75% { border-radius: 15px 255px 15px 225px / 225px 15px 255px 15px; }
+  100% { border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; }
+}
+
+@keyframes sketch-wobble {
+  0%, 100% { transform: rotate(-0.5deg) scale(1); }
+  25% { transform: rotate(0.3deg) scale(1.01); }
+  50% { transform: rotate(-0.3deg) scale(0.99); }
+  75% { transform: rotate(0.5deg) scale(1); }
+}
+
+@keyframes pencil-flicker {
+  0%, 100% { opacity: 0.85; filter: brightness(1); }
+  50% { opacity: 1; filter: brightness(1.1); }
+}
+
+@keyframes chalk-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    box-shadow: 0 0 5px var(--watercolor-gold);
+  }
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 15px var(--watercolor-gold);
+  }
+}
+
+.animate-scribble {
+  animation: scribble 3s ease-in-out infinite;
+}
+
+.animate-scribble-fast {
+  animation: scribble 0.5s ease-in-out infinite;
+}
+
+.animate-sketch-wobble {
+  animation: sketch-wobble 2s ease-in-out infinite;
+}
+
+.animate-pencil-flicker {
+  animation: pencil-flicker 1.5s ease-in-out infinite;
+}
+
+.animate-chalk-pulse {
+  animation: chalk-pulse 3s ease-in-out infinite;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR - Sketchy style
+   ============================================ */
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #12121a;
+  background: var(--paper-dark);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2a2a3a;
-  border-radius: 4px;
+  background: var(--pencil-faint);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a3a4a;
+  background: var(--pencil);
 }
 
-/* Leaflet dark theme overrides */
+/* ============================================
+   LEAFLET MAP - Parchment sketch style
+   ============================================ */
+
 .leaflet-container {
-  background: #0a0a0f;
+  background: var(--paper-mid);
+  cursor: default !important;
 }
 
+.leaflet-container.vintage-map {
+  pointer-events: none;
+}
+
+.leaflet-container.vintage-map .leaflet-marker-pane,
+.leaflet-container.vintage-map .leaflet-overlay-pane {
+  pointer-events: auto;
+}
+
+/* Sketch/pencil effect on map tiles - hand-drawn look */
 .leaflet-tile-pane {
-  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+  filter:
+    grayscale(1)
+    invert(1)
+    contrast(1.2)
+    brightness(0.8)
+    sepia(0.15);
+  opacity: 0.6;
+}
+
+.leaflet-grab {
+  cursor: default !important;
+}
+
+.leaflet-dragging .leaflet-grab {
+  cursor: default !important;
 }
 
 .leaflet-control-attribution {
   display: none;
 }
 
-/* Draggable marker styles */
+/* Map text labels - handwritten style */
+.map-label {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* ============================================
+   DRAGGABLE MARKERS
+   ============================================ */
+
 .draggable-marker {
   cursor: grab;
   touch-action: none;
@@ -87,9 +271,25 @@ html, body, #root {
   z-index: 9999 !important;
 }
 
-/* Drop zone highlight */
+/* ============================================
+   DROP ZONE - Chalk highlight
+   ============================================ */
+
 .drop-zone-active {
-  border-color: #d4af37 !important;
-  background-color: rgba(212, 175, 55, 0.2) !important;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+  border-color: var(--chalk-gold) !important;
+  background-color: rgba(201, 162, 39, 0.1) !important;
+  box-shadow: 0 0 20px rgba(201, 162, 39, 0.3);
+  animation: scribble 0.3s ease-in-out infinite;
+}
+
+/* ============================================
+   SVG FILTER DEFINITIONS (inline)
+   ============================================ */
+
+/* Add this SVG to the page for rough edges filter */
+.svg-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }

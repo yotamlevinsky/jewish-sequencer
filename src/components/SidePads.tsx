@@ -91,13 +91,23 @@ export function SidePads() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [samplePads, handlePadClick]);
 
+  // Varied border radii for hand-drawn look
+  const padRadii = [
+    '45px 12px 40px 8px / 8px 40px 12px 45px',
+    '12px 40px 8px 45px / 45px 8px 40px 12px',
+    '40px 8px 45px 12px / 12px 45px 8px 40px',
+    '8px 45px 12px 40px / 40px 12px 45px 8px',
+    '35px 15px 42px 10px / 10px 42px 15px 35px',
+    '15px 42px 10px 35px / 35px 10px 42px 15px',
+  ];
+
   return (
-    <div className="w-full h-full bg-museum-panel rounded-lg border border-museum-border p-4 flex flex-col">
+    <div
+      className="w-full h-full bg-paper-mid/40 border-2 border-pencil-faint/30 p-4 flex flex-col"
+      style={{ borderRadius: '15px 225px 15px 255px / 255px 15px 225px 15px' }}
+    >
       {/* Header */}
-      <h2 className="text-gold font-semibold text-lg mb-2">Live Pads</h2>
-      <p className="text-xs text-gray-500 mb-4">
-        Press keys or click to trigger. Bottom pads record from mic.
-      </p>
+      <h2 className="font-sketch text-2xl text-chalk-gold mb-4 tracking-wide">מקלדת חיה</h2>
 
       {/* Pads grid (2x3) */}
       <div className="flex-1 grid grid-cols-2 gap-3">
@@ -110,23 +120,24 @@ export function SidePads() {
               key={pad.id}
               onClick={() => handlePadClick(pad.id, index)}
               className={`
-                relative rounded-xl flex flex-col items-center justify-center
-                transition-all duration-150 active:scale-95
+                relative flex flex-col items-center justify-center
+                transition-all duration-150 active:scale-95 border-2
                 ${
                   pad.isRecording
-                    ? 'bg-red-500/30 border-2 border-red-500 animate-pulse'
+                    ? 'bg-chalk-gold/10 border-chalk-gold animate-scribble'
                     : hasSound
-                    ? 'bg-museum-dark border-2 border-gold/50 hover:border-gold hover:shadow-glow-gold active:bg-gold/20'
-                    : 'bg-museum-dark/50 border-2 border-dashed border-museum-border hover:border-gold/30'
+                    ? 'bg-paper-dark/30 border-pencil-faint/40 hover:border-chalk-gold/60 hover:shadow-chalk'
+                    : 'bg-paper-dark/20 border-dashed border-pencil-faint/30 hover:border-pencil/50'
                 }
               `}
+              style={{ borderRadius: padRadii[index] }}
             >
               {/* Key binding badge */}
               <span
                 className={`
-                  absolute top-2 left-2 w-6 h-6 rounded flex items-center justify-center
-                  text-xs font-bold
-                  ${hasSound ? 'bg-gold/20 text-gold' : 'bg-gray-800 text-gray-500'}
+                  absolute top-2 right-2 w-6 h-6 flex items-center justify-center
+                  font-sketch text-sm
+                  ${hasSound ? 'text-chalk-gold' : 'text-pencil-faint/50'}
                 `}
               >
                 {pad.keyBinding}
@@ -135,25 +146,23 @@ export function SidePads() {
               {/* Pad content */}
               {pad.isRecording ? (
                 <>
-                  <span className="text-3xl mb-1">🔴</span>
-                  <span className="text-red-400 text-xs font-medium">Recording...</span>
-                  <span className="text-red-300 text-[10px] mt-1">Click to stop</span>
+                  <span className="text-2xl mb-1 opacity-80">●</span>
+                  <span className="font-sketch text-sm text-chalk-gold">מקליט...</span>
                 </>
               ) : hasSound ? (
                 <>
-                  <span className="text-3xl mb-1 flame-icon">
+                  <span className="text-2xl mb-1 opacity-80">
                     {isUserPad ? '🎙️' : '🔥'}
                   </span>
-                  <span className="text-white text-sm font-medium">{pad.name}</span>
+                  <span className="font-sketch text-sm text-pencil-light">{pad.name}</span>
                   {pad.isUserRecorded && (
-                    <span className="text-[10px] text-green-400 mt-1">Recorded</span>
+                    <span className="font-sketch text-xs text-chalk-gold/70 mt-1">הוקלט</span>
                   )}
                 </>
               ) : (
                 <>
-                  <span className="text-3xl mb-1 text-gray-600">🎤</span>
-                  <span className="text-gray-500 text-xs">Tap to Record</span>
-                  <span className="text-gray-600 text-[10px] mt-1">4 sec max</span>
+                  <span className="text-2xl mb-1 opacity-50">🎤</span>
+                  <span className="font-sketch text-sm text-pencil-faint">הקלטה</span>
                 </>
               )}
             </button>
@@ -161,13 +170,6 @@ export function SidePads() {
         })}
       </div>
 
-      {/* Footer info */}
-      <div className="mt-4 pt-3 border-t border-museum-border">
-        <div className="flex items-center justify-between text-xs text-gray-500">
-          <span>Keys: Q W E / A S D</span>
-          <span className="text-gold">Makey Makey Ready</span>
-        </div>
-      </div>
     </div>
   );
 }

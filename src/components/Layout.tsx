@@ -42,24 +42,14 @@ export function Layout() {
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}
     >
-      <div className="w-full h-full bg-museum-dark flex flex-col p-4 gap-4">
+      <div className="w-full h-full flex flex-col p-4 gap-4">
         {/* Header */}
         <header className="flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">🕎</span>
-            <div>
-              <h1 className="text-2xl font-bold text-gold-light">
-                The Jewish Sequence Generator
-              </h1>
-              <p className="text-xs text-gray-500">
-                A Musical Journey Through Jewish Communities Worldwide
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-xs text-gray-600 bg-museum-panel px-3 py-1 rounded-full border border-museum-border">
-              Museum Edition
-            </span>
+            <span className="text-3xl opacity-80">🕎</span>
+            <h1 className="font-sketch text-4xl text-chalk-gold tracking-wider">
+              חנוכיית הצלילים
+            </h1>
           </div>
         </header>
 
@@ -67,13 +57,13 @@ export function Layout() {
         <div className="flex-1 flex gap-4 min-h-0">
           {/* Left side: Map (top) + Sequencer (bottom) */}
           <div className="flex-1 flex flex-col gap-4 min-w-0">
-            {/* Map area - 40% height */}
-            <div className="h-[40%] shrink-0">
+            {/* Map area - 55% height */}
+            <div className="h-[55%] shrink-0">
               <WorldMap />
             </div>
 
-            {/* Sequencer area - 60% height */}
-            <div className="flex-1 min-h-0">
+            {/* Sequencer area - scrollable */}
+            <div className="flex-1 min-h-0 overflow-hidden">
               <Sequencer />
             </div>
           </div>

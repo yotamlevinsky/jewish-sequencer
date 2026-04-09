@@ -81,52 +81,50 @@ export function Sequencer() {
   };
 
   return (
-    <div className="w-full h-full bg-museum-panel rounded-lg border border-museum-border p-4 flex flex-col">
+    <div className="w-full h-full bg-paper-mid/50 border-2 border-pencil-faint/30 p-4 flex flex-col"
+         style={{ borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}>
       {/* Header with transport controls */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <h2 className="text-gold font-semibold text-lg">Hanukkiah Sequencer</h2>
-          <span className="text-xs text-gray-500">16 Steps</span>
+          <h2 className="font-sketch text-2xl text-chalk-gold tracking-wide">סקוונסר</h2>
         </div>
 
         {/* Transport controls */}
         <div className="flex items-center gap-4">
           {/* BPM control */}
           <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-400">BPM</label>
+            <label className="font-sketch text-lg text-pencil">קצב</label>
             <input
               type="number"
               value={transport.bpm}
               onChange={(e) => setBpm(Number(e.target.value))}
               min={60}
               max={200}
-              className="w-16 bg-museum-dark border border-museum-border rounded px-2 py-1 text-sm text-white text-center focus:outline-none focus:border-gold"
+              className="w-16 bg-paper-dark/50 border border-pencil-faint/40 px-2 py-1 text-sm text-pencil-light text-center focus:outline-none focus:border-chalk-gold font-hand"
+              style={{ borderRadius: '15px 50px 30px 5px' }}
             />
           </div>
 
           {/* Current step indicator */}
           <div className="flex items-center gap-2">
-            <span className="text-xs text-gray-400">Step</span>
-            <span className="text-flame-orange font-mono text-sm w-6 text-center">
-              {transport.currentStep + 1}
-            </span>
+            <span className="font-sketch text-lg text-pencil-faint">{transport.currentStep + 1}</span>
           </div>
 
           {/* Play/Pause button */}
           <button
             onClick={handlePlayPause}
             className={`
-              w-12 h-10 rounded-lg flex items-center justify-center
-              transition-all duration-200 text-xl
+              w-12 h-10 flex items-center justify-center
+              transition-all duration-200 text-xl border-2
               ${
                 transport.isPlaying
-                  ? 'bg-flame-orange text-white shadow-flame-subtle'
-                  : 'bg-museum-dark border border-museum-border hover:border-gold text-gray-400 hover:text-white'
+                  ? 'bg-chalk-gold/20 text-chalk-gold border-chalk-gold shadow-chalk animate-sketch-wobble'
+                  : 'bg-paper-dark/30 border-pencil-faint/40 text-pencil hover:text-chalk-gold hover:border-chalk-gold/50'
               }
             `}
-            title={transport.isPlaying ? 'Pause' : 'Play'}
+            style={{ borderRadius: '50px 15px 40px 20px / 20px 40px 15px 50px' }}
           >
-            {transport.isPlaying ? '⏸' : '▶'}
+            {transport.isPlaying ? '◼' : '▶'}
           </button>
         </div>
       </div>
@@ -143,12 +141,6 @@ export function Sequencer() {
         ))}
       </div>
 
-      {/* Footer hint */}
-      <div className="mt-3 pt-3 border-t border-museum-border">
-        <p className="text-xs text-gray-500 text-center">
-          Drop samples from the map onto the <span className="text-gold">Shamash</span> slots, then toggle steps to create your pattern
-        </p>
-      </div>
     </div>
   );
 }

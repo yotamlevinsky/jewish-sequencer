@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
@@ -21,6 +22,7 @@ function DraggableMarkerItem({ marker, position }: DraggableMarkerItemProps) {
     id: marker.id,
     data: { marker },
   });
+  const [isHovered, setIsHovered] = useState(false);
 
   const style: React.CSSProperties = {
     position: 'fixed',
@@ -47,6 +49,8 @@ function DraggableMarkerItem({ marker, position }: DraggableMarkerItemProps) {
       {...listeners}
       {...attributes}
       onClick={handleClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={`
         cursor-grab active:cursor-grabbing select-none
         ${isDragging ? 'opacity-80' : ''}
@@ -68,10 +72,10 @@ function DraggableMarkerItem({ marker, position }: DraggableMarkerItemProps) {
           🔥
         </span>
       </div>
-      {/* Label */}
-      {!isDragging && (
+      {/* Label - only visible on hover or drag */}
+      {(isHovered || isDragging) && (
         <div
-          className="absolute top-full left-1/2 -translate-x-1/2 mt-1 px-2 py-1 rounded text-xs text-white font-bold whitespace-nowrap pointer-events-none"
+          className="absolute top-full left-1/2 -translate-x-1/2 mt-1 px-2 py-1 rounded text-xs text-white font-bold whitespace-nowrap pointer-events-none transition-opacity"
           style={{
             backgroundColor: marker.color,
             boxShadow: `0 0 10px ${marker.color}`,

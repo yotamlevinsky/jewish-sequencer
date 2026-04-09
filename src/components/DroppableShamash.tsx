@@ -18,32 +18,32 @@ export function DroppableShamash({ rowId, assignedMarker, onClear }: DroppableSh
       ref={setNodeRef}
       onClick={() => assignedMarker && onClear()}
       className={`
-        w-16 h-14 rounded-lg border-2 flex flex-col items-center justify-center
-        transition-all duration-200 cursor-pointer shrink-0
+        w-16 h-12 border-2 flex flex-col items-center justify-center
+        cursor-pointer shrink-0 transition-all duration-200
         ${
           isOver
-            ? 'border-gold bg-gold/20 shadow-glow-gold drop-zone-active'
+            ? 'border-chalk-gold bg-chalk-gold/10 shadow-chalk-strong drop-zone-active'
             : assignedMarker
-            ? 'border-gold bg-gold/10 border-solid'
-            : 'border-museum-border border-dashed hover:border-gold/50 bg-museum-dark'
+            ? 'border-chalk-gold/50 bg-paper-dark/30 shadow-chalk'
+            : 'border-pencil-faint/30 border-dashed bg-paper-dark/20 animate-chalk-pulse hover:border-pencil/50'
         }
       `}
-      title={assignedMarker ? 'Click to clear' : 'Drop sample here'}
+      style={{ borderRadius: '50px 15px 45px 10px / 10px 45px 15px 50px' }}
     >
       {assignedMarker ? (
         <>
-          <span className="text-xl flame-icon">🕯️</span>
-          <span className="text-[10px] text-gold truncate max-w-full px-1">
+          <span className="text-lg animate-pencil-flicker opacity-90">🕯️</span>
+          <span className="font-sketch text-xs text-chalk-gold truncate max-w-full px-1">
             {assignedMarker.name.split(' ')[0]}
           </span>
         </>
       ) : (
         <>
-          <span className={`text-lg ${isOver ? 'text-gold' : 'text-gray-600'}`}>
-            {isOver ? '🔥' : '+'}
+          <span className={`text-base transition-all ${isOver ? 'text-chalk-gold scale-110' : 'text-pencil-faint/60'}`}>
+            {isOver ? '🔥' : '🕯️'}
           </span>
-          <span className={`text-[10px] ${isOver ? 'text-gold' : 'text-gray-600'}`}>
-            {isOver ? 'Drop!' : 'Shamash'}
+          <span className={`font-sketch text-xs transition-all ${isOver ? 'text-chalk-gold' : 'text-pencil-faint/50'}`}>
+            שמש
           </span>
         </>
       )}

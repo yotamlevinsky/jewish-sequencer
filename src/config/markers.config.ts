@@ -33,37 +33,37 @@ export const MARKERS: MapMarker[] = [
   // ===== EUROPE =====
   {
     id: 'marker-europe',
-    name: 'Klezmer',
-    location: 'Eastern Europe',
+    name: 'כליזמר',
+    location: 'מזרח אירופה',
     coordinates: [50.0647, 19.9450], // Krakow, Poland
     synthType: 'klezmer',
     note: 'D4',
     color: '#4FC3F7', // Light blue
-    description: 'Traditional Klezmer music from Eastern European Jewish communities',
+    description: 'מוזיקת כליזמר מסורתית מקהילות יהודיות במזרח אירופה',
   },
 
   // ===== MIDDLE EAST =====
   {
     id: 'marker-asia',
-    name: 'Mizrachi Oud',
-    location: 'Middle East',
+    name: 'עוד מזרחי',
+    location: 'המזרח התיכון',
     coordinates: [31.7683, 35.2137], // Jerusalem
     synthType: 'oud',
     note: 'A3',
     color: '#FFD54F', // Gold/Yellow
-    description: 'Middle Eastern Jewish musical traditions with Oud melodies',
+    description: 'מסורות מוזיקליות יהודיות מזרחיות עם נגינות עוד',
   },
 
   // ===== NORTH AFRICA =====
   {
     id: 'marker-africa',
-    name: 'Moroccan',
-    location: 'North Africa',
+    name: 'מרוקאי',
+    location: 'צפון אפריקה',
     coordinates: [33.9716, -6.8498], // Rabat, Morocco
     synthType: 'moroccan',
     note: 'E4',
     color: '#FF8A65', // Orange/Coral
-    description: 'Sephardic Jewish music from Morocco and North Africa',
+    description: 'מוזיקה יהודית ספרדית ממרוקו וצפון אפריקה',
   },
 
   // ===== ADD MORE MARKERS BELOW =====

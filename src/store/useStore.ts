@@ -17,9 +17,9 @@ const createInitialPads = (): SamplePad[] => {
   const keyBindings = ['Q', 'W', 'E', 'A', 'S', 'D'];
 
   const preloadedPads: Array<{ name: string; synthType: PadSynthType; note: string }> = [
-    { name: 'Chant 1', synthType: 'chant1', note: 'C3' },
-    { name: 'Chant 2', synthType: 'chant2', note: 'E3' },
-    { name: 'Melody', synthType: 'melody1', note: 'G4' },
+    { name: 'ניגון א', synthType: 'chant1', note: 'C3' },
+    { name: 'ניגון ב', synthType: 'chant2', note: 'E3' },
+    { name: 'לחן', synthType: 'melody1', note: 'G4' },
   ];
 
   return Array.from({ length: 6 }, (_, i) => {
@@ -38,7 +38,7 @@ const createInitialPads = (): SamplePad[] => {
       // User recording pads
       return {
         id: `pad-${i + 1}`,
-        name: `Record ${i - 2}`,
+        name: `הקלטה ${i - 2}`,
         keyBinding: keyBindings[i],
         isUserRecorded: false,
         isRecording: false,
@@ -141,7 +141,7 @@ export const useStore = create<AppState>((set) => ({
               recordedBuffer: buffer,
               isUserRecorded: true,
               isRecording: false,
-              name: `Recording ${pad.keyBinding}`,
+              name: `הקלטה ${pad.keyBinding}`,
             }
           : pad
       ),

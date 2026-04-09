@@ -12,8 +12,19 @@ export function SequencerRow({ row, currentStep, isPlaying }: SequencerRowProps)
   const toggleStep = useStore((state) => state.toggleStep);
   const clearRow = useStore((state) => state.clearRow);
 
+  // Generate a slightly random border radius for each row
+  const rowVariant = parseInt(row.id.replace('row-', '')) % 3;
+  const borderRadii = [
+    '255px 15px 225px 15px / 15px 225px 15px 255px',
+    '15px 225px 15px 255px / 255px 15px 225px 15px',
+    '225px 15px 255px 15px / 15px 255px 15px 225px',
+  ];
+
   return (
-    <div className="flex items-center gap-2 bg-museum-panel rounded-lg p-2 border border-museum-border">
+    <div
+      className="flex items-center gap-2 bg-paper-dark/30 p-2 border border-pencil-faint/20"
+      style={{ borderRadius: borderRadii[rowVariant] }}
+    >
       {/* Shamash (row header / drop zone) */}
       <DroppableShamash
         rowId={row.id}
@@ -26,45 +37,43 @@ export function SequencerRow({ row, currentStep, isPlaying }: SequencerRowProps)
         {row.steps.map((step, index) => {
           const isCurrentStep = isPlaying && currentStep === index;
           const isActive = step.active;
+          // Vary border radius per step for hand-drawn feel
+          const stepVariant = (index + rowVariant) % 4;
+          const stepRadii = [
+            '40px 10px 35px 8px / 8px 35px 10px 40px',
+            '10px 35px 8px 40px / 40px 8px 35px 10px',
+            '35px 8px 40px 10px / 10px 40px 8px 35px',
+            '8px 40px 10px 35px / 35px 10px 40px 8px',
+          ];
 
           return (
             <button
               key={index}
               onClick={() => toggleStep(row.id, index)}
               className={`
-                w-8 h-14 rounded-md flex items-center justify-center
-                transition-all duration-150 relative
+                flex-1 h-12 flex items-center justify-center
+                transition-all duration-150 relative min-w-0 border
                 ${
                   isActive
-                    ? 'bg-flame-orange/20 border-2 border-flame-orange shadow-flame-subtle'
-                    : 'bg-museum-dark border border-museum-border hover:border-gold/30'
+                    ? 'bg-chalk-gold/10 border-chalk-gold/60 shadow-chalk'
+                    : 'bg-paper-dark/20 border-pencil-faint/30 hover:border-pencil/50'
                 }
-                ${isCurrentStep ? 'ring-2 ring-white ring-opacity-50' : ''}
-                ${(index + 1) % 4 === 0 && index !== 15 ? 'mr-2' : ''}
+                ${isCurrentStep ? 'animate-scribble-fast shadow-chalk-strong' : ''}
+                ${(index + 1) % 4 === 0 && index !== 15 ? 'mr-3' : ''}
               `}
+              style={{ borderRadius: stepRadii[stepVariant] }}
               disabled={!row.assignedMarker}
-              title={row.assignedMarker ? `Step ${index + 1}` : 'Assign a sample first'}
             >
-              {/* Step number (subtle) */}
-              <span
-                className={`
-                  absolute bottom-0.5 text-[8px]
-                  ${isActive ? 'text-flame-orange' : 'text-gray-700'}
-                `}
-              >
-                {index + 1}
-              </span>
-
               {/* Flame icon when active */}
               {isActive && (
-                <span className="text-lg flame-icon animate-flicker">
+                <span className={`text-base flame-icon ${isCurrentStep ? 'animate-pencil-flicker scale-110' : 'opacity-80'}`}>
                   🔥
                 </span>
               )}
 
               {/* Socket indicator when inactive but row has sample */}
               {!isActive && row.assignedMarker && (
-                <span className="text-gray-600 text-xs">○</span>
+                <span className="text-pencil-faint/40 text-xs">○</span>
               )}
             </button>
           );
