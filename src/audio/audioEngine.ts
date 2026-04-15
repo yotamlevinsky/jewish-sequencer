@@ -1,7 +1,7 @@
 import * as Tone from 'tone';
 import type { SynthType, PadSynthType } from '../types';
 
-// Store synths for sequencer
+// Store synths for sequencer (legacy - for backward compatibility)
 const synths: Map<SynthType, Tone.Synth> = new Map();
 
 // Store synths for pads (longer, more atmospheric sounds)
@@ -9,6 +9,9 @@ const padSynths: Map<PadSynthType, Tone.PolySynth> = new Map();
 
 // Store recorded buffers
 const recordedBuffers: Map<string, Tone.Player> = new Map();
+
+// Store loaded audio samples from URLs
+const audioSamples: Map<string, Tone.Player> = new Map();
 
 // MediaRecorder for mic recording
 let mediaRecorder: MediaRecorder | null = null;
@@ -128,6 +131,47 @@ export function playNote(synthType: SynthType, note: string, duration: string = 
 // Play a preview sound (longer duration)
 export function playPreview(synthType: SynthType, note: string): void {
   playNote(synthType, note, '4n');
+}
+
+// Load an audio sample from URL
+export async function loadAudioSample(id: string, url: string): Promise<void> {
+  if (!isInitialized) {
+    console.warn('Audio not initialized. Call initAudio() first.');
+    return;
+  }
+
+  // If already loaded, don't reload
+  if (audioSamples.has(id)) {
+    return;
+  }
+
+  try {
+    const player = new Tone.Player({
+      url,
+      onload: () => {
+        console.log(`Loaded audio sample: ${id}`);
+      },
+    }).toDestination();
+    player.volume.value = -6;
+    audioSamples.set(id, player);
+  } catch (error) {
+    console.error(`Failed to load audio sample ${id}:`, error);
+  }
+}
+
+// Play an audio sample by ID (from URL)
+export function playAudioSample(id: string): void {
+  if (!isInitialized) {
+    console.warn('Audio not initialized');
+    return;
+  }
+
+  const player = audioSamples.get(id);
+  if (player && player.loaded) {
+    player.start();
+  } else {
+    console.warn(`Audio sample ${id} not loaded`);
+  }
 }
 
 // Play a pad synth (chord/longer sound)

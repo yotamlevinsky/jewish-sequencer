@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import type { AppState, SequencerRow, SamplePad, PadSynthType } from '../types';
-import { MARKERS } from '../config';
+import type { AppState, SequencerRow, SamplePad, PadSynthType, MapMarker } from '../types';
+import { fetchAudioSamples } from '../services/audioService';
 
 // Create initial sequencer rows (4 rows with 16 steps each)
 const createInitialRows = (): SequencerRow[] => {
@@ -49,7 +49,7 @@ const createInitialPads = (): SamplePad[] => {
 
 export const useStore = create<AppState>((set) => ({
   // Initial state
-  markers: MARKERS,
+  markers: [], // Will be loaded from Supabase
   sequencerRows: createInitialRows(),
   samplePads: createInitialPads(),
   transport: {
@@ -59,6 +59,10 @@ export const useStore = create<AppState>((set) => ({
   },
 
   // Actions
+  loadMarkers: async () => {
+    const markers = await fetchAudioSamples();
+    set({ markers });
+  },
   toggleStep: (rowId, stepIndex) =>
     set((state) => ({
       sequencerRows: state.sequencerRows.map((row) =>

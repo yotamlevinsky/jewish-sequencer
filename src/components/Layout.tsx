@@ -1,14 +1,46 @@
 import { DndContext, DragEndEvent, DragOverlay, DragStartEvent } from '@dnd-kit/core';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { WorldMap } from './WorldMap';
 import { Sequencer } from './Sequencer';
 import { SidePads } from './SidePads';
 import { useStore } from '../store/useStore';
 import type { MapMarker } from '../types';
+import { initAudio, loadAudioSample } from '../audio';
 
 export function Layout() {
+  const loadMarkers = useStore((state) => state.loadMarkers);
+  const markers = useStore((state) => state.markers);
   const assignMarkerToRow = useStore((state) => state.assignMarkerToRow);
   const [activeMarker, setActiveMarker] = useState<MapMarker | null>(null);
+
+  // Load markers from Supabase on mount
+  useEffect(() => {
+    const loadData = async () => {
+      console.log('🚀 Loading markers from Supabase...');
+      await loadMarkers();
+      console.log('✅ Markers loaded, count:', markers.length);
+    };
+    loadData();
+  }, [loadMarkers]);
+
+  // Load audio samples when markers are loaded
+  useEffect(() => {
+    const loadSamples = async () => {
+      // Initialize audio first
+      await initAudio();
+
+      // Load each audio sample
+      for (const marker of markers) {
+        if (marker.audioUrl) {
+          await loadAudioSample(marker.id, marker.audioUrl);
+        }
+      }
+    };
+
+    if (markers.length > 0) {
+      loadSamples();
+    }
+  }, [markers]);
 
   const handleDragStart = (event: DragStartEvent) => {
     const marker = event.active.data.current?.marker as MapMarker | undefined;

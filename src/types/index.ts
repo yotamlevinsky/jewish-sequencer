@@ -10,10 +10,12 @@ export interface MapMarker {
   name: string;
   location: string;
   coordinates: [number, number]; // [lat, lng]
-  synthType: SynthType;
-  note: string; // Musical note to play (e.g., "C4", "E4")
+  synthType?: SynthType; // Optional - for backward compatibility
+  note?: string; // Musical note to play (e.g., "C4", "E4")
+  audioUrl?: string; // URL to audio file from Supabase
+  type: string; // Type of sample (melody, rhythm, etc.)
   color: string; // Flame color for visual distinction
-  description: string;
+  description?: string;
 }
 
 // Single step in the sequencer (candle socket)
@@ -62,6 +64,7 @@ export interface AppState {
   transport: TransportState;
 
   // Actions
+  loadMarkers: () => Promise<void>;
   toggleStep: (rowId: string, stepIndex: number) => void;
   assignMarkerToRow: (markerId: string, rowId: string) => void;
   clearRow: (rowId: string) => void;

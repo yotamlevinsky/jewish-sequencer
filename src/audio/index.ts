@@ -11,4 +11,6 @@ export {
   isRecording,
   setBpm,
   disposeAudio,
+  loadAudioSample,
+  playAudioSample,
 } from './audioEngine';

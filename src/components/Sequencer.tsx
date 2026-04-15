@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useStore } from '../store/useStore';
 import { SequencerRow } from './SequencerRow';
-import { initAudio, isAudioInitialized, playNote, setBpm as setAudioBpm } from '../audio';
+import { initAudio, isAudioInitialized, playNote, playAudioSample, setBpm as setAudioBpm } from '../audio';
 
 export function Sequencer() {
   const sequencerRows = useStore((state) => state.sequencerRows);
@@ -20,7 +20,13 @@ export function Sequencer() {
 
     sequencerRows.forEach((row) => {
       if (row.assignedMarker && row.steps[step]?.active) {
-        playNote(row.assignedMarker.synthType, row.assignedMarker.note);
+        // If marker has audio URL, play the sample
+        if (row.assignedMarker.audioUrl) {
+          playAudioSample(row.assignedMarker.id);
+        } else if (row.assignedMarker.synthType && row.assignedMarker.note) {
+          // Fallback to synth for backward compatibility
+          playNote(row.assignedMarker.synthType, row.assignedMarker.note);
+        }
       }
     });
   }, [sequencerRows]);

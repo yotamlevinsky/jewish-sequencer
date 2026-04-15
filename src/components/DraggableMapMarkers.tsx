@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import type { MapMarker } from '../types';
-import { initAudio, isAudioInitialized, playPreview } from '../audio';
+import { initAudio, isAudioInitialized, playPreview, playAudioSample } from '../audio';
 
 interface MarkerPosition {
   id: string;
@@ -39,7 +39,14 @@ function DraggableMarkerItem({ marker, position }: DraggableMarkerItemProps) {
     if (!isAudioInitialized()) {
       await initAudio();
     }
-    playPreview(marker.synthType, marker.note);
+
+    // If marker has audio URL, play the sample
+    if (marker.audioUrl) {
+      playAudioSample(marker.id);
+    } else if (marker.synthType && marker.note) {
+      // Fallback to synth for backward compatibility
+      playPreview(marker.synthType, marker.note);
+    }
   };
 
   return (
