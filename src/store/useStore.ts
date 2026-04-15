@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { AppState, SequencerRow, SamplePad, PadSynthType, MapMarker } from '../types';
+import type { AppState, SequencerRow, SamplePad, PadSynthType } from '../types';
 import { fetchAudioSamples } from '../services/audioService';
 
 // Create initial sequencer rows (4 rows with 16 steps each)
